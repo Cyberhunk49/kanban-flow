@@ -186,7 +186,7 @@ function Column({ id, label, count, children }: { id: Status; label: string; cou
   );
 }
 
-function TaskCard({ task, assignee, onDone }: { task: Task; assignee?: Member; onDone: () => void }) {
+function TaskCard({ task, assignee, onDone }: { task: Task; assignee: Member | undefined; onDone: () => void }) {
   const { attributes, listeners, setNodeRef, transform, isDragging } = useDraggable({ id: task.id });
   const del = useServerFn(deleteTask);
   return (
