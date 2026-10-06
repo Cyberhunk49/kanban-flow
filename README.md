@@ -2,7 +2,7 @@
 
 A streamlined Kanban-style task management application for personal and team productivity, with built-in workload balancing to flag burnout risk.
 
-### Deployed Link : kanban-flow-uq39-b3rugwwzn-devbuildsxerc.vercel.app
+### Deployed Link :  kanban-flow-uq39-b3rugwwzn-devbuildsxerc.vercel.app
 
 ## Features
 
