@@ -14,7 +14,132 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      members: {
+        Row: {
+          color: string
+          created_at: string
+          id: string
+          name: string
+        }
+        Insert: {
+          color?: string
+          created_at?: string
+          id?: string
+          name: string
+        }
+        Update: {
+          color?: string
+          created_at?: string
+          id?: string
+          name?: string
+        }
+        Relationships: []
+      }
+      project_members: {
+        Row: {
+          member_id: string
+          project_id: string
+          role: Database["public"]["Enums"]["member_role"]
+        }
+        Insert: {
+          member_id: string
+          project_id: string
+          role?: Database["public"]["Enums"]["member_role"]
+        }
+        Update: {
+          member_id?: string
+          project_id?: string
+          role?: Database["public"]["Enums"]["member_role"]
+        }
+        Relationships: [
+          {
+            foreignKeyName: "project_members_member_id_fkey"
+            columns: ["member_id"]
+            isOneToOne: false
+            referencedRelation: "members"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "project_members_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      projects: {
+        Row: {
+          created_at: string
+          id: string
+          name: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          name: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          name?: string
+        }
+        Relationships: []
+      }
+      tasks: {
+        Row: {
+          assignee_id: string | null
+          created_at: string
+          description: string
+          due_date: string | null
+          id: string
+          position: number
+          priority: Database["public"]["Enums"]["task_priority"]
+          project_id: string
+          status: Database["public"]["Enums"]["task_status"]
+          title: string
+        }
+        Insert: {
+          assignee_id?: string | null
+          created_at?: string
+          description?: string
+          due_date?: string | null
+          id?: string
+          position?: number
+          priority?: Database["public"]["Enums"]["task_priority"]
+          project_id: string
+          status?: Database["public"]["Enums"]["task_status"]
+          title: string
+        }
+        Update: {
+          assignee_id?: string | null
+          created_at?: string
+          description?: string
+          due_date?: string | null
+          id?: string
+          position?: number
+          priority?: Database["public"]["Enums"]["task_priority"]
+          project_id?: string
+          status?: Database["public"]["Enums"]["task_status"]
+          title?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "tasks_assignee_id_fkey"
+            columns: ["assignee_id"]
+            isOneToOne: false
+            referencedRelation: "members"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "tasks_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
@@ -23,7 +148,9 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      member_role: "owner" | "editor" | "viewer"
+      task_priority: "low" | "medium" | "high"
+      task_status: "todo" | "in_progress" | "done"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +277,10 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      member_role: ["owner", "editor", "viewer"],
+      task_priority: ["low", "medium", "high"],
+      task_status: ["todo", "in_progress", "done"],
+    },
   },
 } as const
