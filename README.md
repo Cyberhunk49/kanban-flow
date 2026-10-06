@@ -59,7 +59,7 @@ projects ──< tasks >── members
 
 ## Workload Balancing Rule
 
-A member is considered overloaded when they have **more than 5 tasks with status `in_progress`**. The check lives in a pure, unit-tested helper (`workload.ts` with tests in `workload.test.ts`) so the threshold logic is isolated from the UI.
+A member is considered overloaded when they have **more than 5 tasks with status `in_progress`**. The check lives in a pure, unit-tested helper (`workload.ts` with tests in `workload.test.ts`) so the threshold logic is isolated from the UI .
 
 ## Tech Stack
 
