@@ -30,3 +30,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Environment files (kept local, never committed)
+.env
+.env.*
