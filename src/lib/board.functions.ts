@@ -18,9 +18,10 @@ function db() {
   });
 }
 
-function check<T>(r: { data: T; error: { message: string } | null }): T {
+function check<T>(r: { data: T; error: { message: string } | null }): NonNullable<T> {
   if (r.error) throw new Error(r.error.message);
-  return r.data;
+  if (r.data == null) throw new Error("Not found");
+  return r.data as NonNullable<T>;
 }
 
 const status = z.enum(["todo", "in_progress", "done"]);
@@ -91,7 +92,7 @@ export const addMember = createServerFn({ method: "POST" })
   )
   .handler(async ({ data }) => {
     const s = db();
-    const color = palette[Math.floor(Math.random() * palette.length)];
+    const color = palette[Math.floor(Math.random() * palette.length)] ?? "oklch(0.7 0.12 160)";
     const m = check(await s.from("members").insert({ name: data.name, color }).select("id").single());
     check(await s.from("project_members").insert({ project_id: data.project_id, member_id: m.id, role: data.role }));
     return { ok: true };

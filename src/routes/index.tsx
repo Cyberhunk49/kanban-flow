@@ -37,7 +37,7 @@ export const Route = createFileRoute("/")({
   }),
   loader: ({ context }) => context.queryClient.ensureQueryData(boardQuery),
   component: Board,
-  errorComponent: ({ error }) => <div role="alert" className="p-8">{error.message}</div>,
+  errorComponent: ({ error }) => <div role="alert" className="p-8">{(error as Error).message}</div>,
   notFoundComponent: () => <div className="p-8">Board not found.</div>,
 });
 
