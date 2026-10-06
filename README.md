@@ -2,6 +2,8 @@
 
 A streamlined Kanban-style task management application for personal and team productivity, with built-in workload balancing to flag burnout risk.
 
+# Deployed Link : https://easeflow-board.lovable.app/
+
 ## Features
 
 - **Kanban board** — three columns: To-Do, In Progress, Done, with drag-and-drop between them (drag moves are saved instantly to the database).
