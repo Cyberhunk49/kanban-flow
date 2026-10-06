@@ -2,7 +2,7 @@
 
 A streamlined Kanban-style task management application for personal and team productivity, with built-in workload balancing to flag burnout risk.
 
-# Deployed Link : https://easeflow-board.lovable.app/
+### Deployed Link : https://easeflow-board.lovable.app/
 
 ## Features
 
