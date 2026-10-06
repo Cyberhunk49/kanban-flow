@@ -24,6 +24,10 @@ function check<T>(r: { data: T; error: { message: string } | null }): NonNullabl
   return r.data as NonNullable<T>;
 }
 
+function ok(r: { error: { message: string } | null }) {
+  if (r.error) throw new Error(r.error.message);
+}
+
 const status = z.enum(["todo", "in_progress", "done"]);
 const priority = z.enum(["low", "medium", "high"]);
 
@@ -60,21 +64,21 @@ export const createTask = createServerFn({ method: "POST" })
       .parse(d),
   )
   .handler(async ({ data }) => {
-    check(await db().from("tasks").insert({ ...data, status: "todo", position: Date.now() }));
+    ok(await db().from("tasks").insert({ ...data, status: "todo", position: Date.now() }));
     return { ok: true };
   });
 
 export const moveTask = createServerFn({ method: "POST" })
   .inputValidator((d) => z.object({ id: z.string().uuid(), status }).parse(d))
   .handler(async ({ data }) => {
-    check(await db().from("tasks").update({ status: data.status, position: Date.now() }).eq("id", data.id));
+    ok(await db().from("tasks").update({ status: data.status, position: Date.now() }).eq("id", data.id));
     return { ok: true };
   });
 
 export const deleteTask = createServerFn({ method: "POST" })
   .inputValidator((d) => z.object({ id: z.string().uuid() }).parse(d))
   .handler(async ({ data }) => {
-    check(await db().from("tasks").delete().eq("id", data.id));
+    ok(await db().from("tasks").delete().eq("id", data.id));
     return { ok: true };
   });
 
@@ -94,6 +98,6 @@ export const addMember = createServerFn({ method: "POST" })
     const s = db();
     const color = palette[Math.floor(Math.random() * palette.length)] ?? "oklch(0.7 0.12 160)";
     const m = check(await s.from("members").insert({ name: data.name, color }).select("id").single());
-    check(await s.from("project_members").insert({ project_id: data.project_id, member_id: m.id, role: data.role }));
+    ok(await s.from("project_members").insert({ project_id: data.project_id, member_id: m.id, role: data.role }));
     return { ok: true };
   });
